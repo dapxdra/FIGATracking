@@ -5,7 +5,7 @@ CREATE DATABASE FIGA_Travel;
 CREATE SCHEMA IF NOT EXISTS FIGA;
 
 -- Creación de la tabla Usuarios dentro del esquema FIGA
-CREATE TABLE Usuarios (
+CREATE TABLE FIGA.Usuarios (
     id SERIAL PRIMARY KEY,
 	oauth_id VARCHAR(255) UNIQUE,
     nombre VARCHAR(100) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE Usuarios (
 CREATE TABLE FIGA.Conductores (
     id SERIAL PRIMARY KEY,
     usuario_id INT REFERENCES FIGA.Usuarios(id) ON DELETE CASCADE,
-    cedula VARCHAR(50) NOT  UNIQUE,
+    cedula VARCHAR(50) NOT NULL UNIQUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
