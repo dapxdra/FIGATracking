@@ -1,18 +1,28 @@
 import { Router } from "express";
-import { authenticate } from "passport";
+import passport from "passport";
 const router = Router();
-import { googleAuth } from "../controllers/authController.js";
 
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+// Ruta para iniciar sesión con Google
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-router.get("/google", authenticate("google", { scope: ["profile", "email"] }));
-
+// Ruta de callback después de la autenticación
 router.get(
   "/google/callback",
-  authenticate("google", { session: false, failureRedirect: "/login" }),
-  googleAuth
+  passport.authenticate("google", {
+    failureRedirect: "/auth/failure",
+    successRedirect: "/auth/success",
+  })
 );
+
+router.get("/success", (req, res) => {
+  res.send("Login exitoso");
+});
+
+router.get("/failure", (req, res) => {
+  res.send("Error en el login");
+});
 
 export default router;

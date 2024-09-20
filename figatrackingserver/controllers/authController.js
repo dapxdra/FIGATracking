@@ -1,27 +1,45 @@
-import { User } from "../models/user.js";
-import { sign } from "jsonwebtoken";
+import passport, { use, serializeUser, deserializeUser } from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { findOne, create, findByPk } from "../models";
 
-export async function googleAuth(req, res) {
-  const { id, emails } = req.user;
+use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await findOne({ where: { googleId: profile.id } });
 
-  try {
-    let user = await User.findOne({ where: { googleId: id } });
+        if (!user) {
+          user = await create({
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            name: profile.displayName,
+          });
+        }
 
-    if (!user) {
-      user = await User.create({
-        googleId: id,
-        email: emails[0].value,
-      });
+        return done(null, user);
+      } catch (err) {
+        return done(err, false);
+      }
     }
+  )
+);
 
-    const token = sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ message: "Error en la autenticación con Google" });
+deserializeUser(async (id, done) => {
+  try {
+    const user = await findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err, false);
   }
-}
+});
+
+export default passport;
