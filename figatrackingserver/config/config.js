@@ -1,7 +1,11 @@
-export const development = {
-  username: "postgres",
-  password: "1230",
-  database: "figa_travel",
-  host: "localhost",
-  dialect: "postgres",
-};
+import { Sequelize } from "sequelize";
+import { dotenv } from "dotenv";
+
+dotenv.config();
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  { host: process.env.DB_HOST, dialect: "postgres" }
+);

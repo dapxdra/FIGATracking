@@ -3,6 +3,10 @@ import { authenticate } from "passport";
 const router = Router();
 import { googleAuth } from "../controllers/authController.js";
 
+router.get("/", function (req, res, next) {
+  res.send("respond with a resource");
+});
+
 router.get("/google", authenticate("google", { scope: ["profile", "email"] }));
 
 router.get(
