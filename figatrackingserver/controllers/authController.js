@@ -1,8 +1,8 @@
 import passport, { use, serializeUser, deserializeUser } from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 import { findOne, create, findByPk } from "../models";
 
-use(
+passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
@@ -11,13 +11,13 @@ use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await findOne({ where: { googleId: profile.id } });
+        let user = await findOne({ where: { oauth_id: profile.id } });
 
         if (!user) {
           user = await create({
-            googleId: profile.id,
+            oauth_id: profile.id,
             email: profile.emails[0].value,
-            name: profile.displayName,
+            nombre: profile.displayName,
           });
         }
 

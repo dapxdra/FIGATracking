@@ -8,14 +8,14 @@ import { sequelize } from "./config/config.js";
 
 config();
 
+const app = express();
+
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
   })
 );
-
-const app = express();
 
 app.use(
   session({
