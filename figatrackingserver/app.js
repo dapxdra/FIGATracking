@@ -2,10 +2,18 @@ import express from "express";
 import session from "express-session";
 import passport from "passport";
 import { config } from "dotenv";
+import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import { sequelize } from "./config/config.js";
 
 config();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 const app = express();
 
