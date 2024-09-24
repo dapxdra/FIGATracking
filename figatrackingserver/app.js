@@ -1,12 +1,13 @@
-import express from "express";
-import session from "express-session";
-import passport from "passport";
-import { config } from "dotenv";
-import cors from "cors";
-import authRoutes from "./routes/auth.js";
-import { sequelize } from "./config/config.js";
+const express = require("express");
+const session = require("express-session");
+/* const passport = require("passport"); */
+const passport = require("./controllers/authController.js");
+const dotenv = require("dotenv");
+const authRoutes = require("./routes/auth.js");
+const sequelize = require("./config/config.js");
+const cors = require("cors");
 
-config();
+dotenv.config();
 
 const app = express();
 
@@ -26,14 +27,14 @@ app.use(
 );
 
 app.use(passport.initialize());
-app.use(session());
+app.use(passport.session());
 
 app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 
 sequelize
-  .sync()
+  .authenticate()
   .then(() => {
     console.log("Conectado a la base de datos");
     app.listen(PORT, () => {

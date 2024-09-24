@@ -1,6 +1,6 @@
-import passport, { use, serializeUser, deserializeUser } from "passport";
+const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-import { findOne, create, findByPk } from "../models";
+const User = require("../models/user.js");
 
 passport.use(
   new GoogleStrategy(
@@ -11,13 +11,13 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await findOne({ where: { oauth_id: profile.id } });
+        let user = await User.findOne({ where: { googleId: profile.id } });
 
         if (!user) {
-          user = await create({
-            oauth_id: profile.id,
+          user = await User.create({
+            googleId: profile.id,
             email: profile.emails[0].value,
-            nombre: profile.displayName,
+            name: profile.displayName,
           });
         }
 
@@ -29,17 +29,17 @@ passport.use(
   )
 );
 
-serializeUser((user, done) => {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-deserializeUser(async (id, done) => {
+passport.deserializeUser(async (id, done) => {
   try {
-    const user = await findByPk(id);
+    const user = await User.findByPk(id);
     done(null, user);
   } catch (err) {
     done(err, false);
   }
 });
 
-export default passport;
+module.exports = passport;

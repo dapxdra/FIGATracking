@@ -1,6 +1,6 @@
-import { Router } from "express";
-import passport from "passport";
-const router = Router();
+const express = require("express");
+const passport = require("passport");
+const router = express.Router();
 
 // Ruta para iniciar sesión con Google
 router.get(
@@ -25,4 +25,4 @@ router.get("/failure", (req, res) => {
   res.send("Error en el login");
 });
 
-export default router;
+module.exports = router;

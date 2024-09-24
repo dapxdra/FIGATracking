@@ -1,8 +1,8 @@
-import { DataTypes } from "sequelize";
-import { define, sync } from "../config/config.js";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/config.js");
 
-const User = define("User", {
-  oauth_id: {
+const User = sequelize.define("User", {
+  googleId: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -10,14 +10,15 @@ const User = define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  nombre: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 });
 
-sync()
+sequelize
+  .sync()
   .then(() => console.log("Base de datos sincronizada"))
   .catch((err) => console.log("Error sincronizando la base de datos", err));
 
-export default User;
+module.exports = User;
