@@ -10,15 +10,15 @@ const Usuario = sequelize.define(
       primaryKey: true,
     },
     oauth_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       unique: true,
     },
     nombre: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
     },
@@ -36,7 +36,7 @@ const Usuario = sequelize.define(
     },
   },
   {
-    tableName: "Usuarios",
+    tableName: "usuarios",
     timestamps: false,
   }
 );

@@ -20,7 +20,7 @@ const Conductor = sequelize.define(
       onDelete: "CASCADE",
     },
     cedula: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       unique: true,
     },
@@ -30,7 +30,7 @@ const Conductor = sequelize.define(
     },
   },
   {
-    tableName: "Conductores",
+    tableName: "conductores",
     timestamps: false,
   }
 );
