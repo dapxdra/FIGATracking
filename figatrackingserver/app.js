@@ -4,7 +4,7 @@ const session = require("express-session");
 const passport = require("./controllers/authController.js");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.js");
-const sequelize = require("./config/config.js");
+const sequelize = require("./config/sequelize.js");
 const cors = require("cors");
 
 dotenv.config();

@@ -1,22 +1,19 @@
 -- Creación de la base de datos
 CREATE DATABASE FIGA_Travel;
 
--- Creación de esquema para la base de datos
-CREATE SCHEMA IF NOT EXISTS FIGA;
-
 -- Creación de la tabla Usuarios dentro del esquema FIGA
-CREATE TABLE FIGA.Usuarios (
+CREATE TABLE Usuarios (
     id SERIAL PRIMARY KEY,
 	oauth_id VARCHAR(255) UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    rol VARCHAR(20) CHECK(rol IN ('administrador', 'conductor')) NOT NULL,
-	estado BOOL NOT NULL,
+    rol VARCHAR(20) CHECK(rol IN ('administrador', 'conductor')) DEFAULT 'conductor',
+	estado BOOL DEFAULT true,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Creación de la tabla Conductores dentro del esquema FIGA
-CREATE TABLE FIGA.Conductores (
+CREATE TABLE Conductores (
     id SERIAL PRIMARY KEY,
     usuario_id INT REFERENCES FIGA.Usuarios(id) ON DELETE CASCADE,
     cedula VARCHAR(50) NOT NULL UNIQUE,
@@ -29,12 +26,12 @@ CREATE TABLE FIGA.Vehiculos (
     placa VARCHAR(20) NOT NULL UNIQUE,
     modelo VARCHAR(100),
     capacidad INT CHECK(capacidad > 0),
-	estado BOOL NOT NULL,
+	estado BOOL DEFAULT true,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Creación de la tabla Rutas dentro del esquema FIGA
-CREATE TABLE FIGA.Rutas (
+CREATE TABLE Rutas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     origen VARCHAR(100) NOT NULL,
