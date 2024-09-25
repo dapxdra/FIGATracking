@@ -15,13 +15,13 @@ CREATE TABLE Usuarios (
 -- Creación de la tabla Conductores dentro del esquema FIGA
 CREATE TABLE Conductores (
     id SERIAL PRIMARY KEY,
-    usuario_id INT REFERENCES FIGA.Usuarios(id) ON DELETE CASCADE,
+    usuario_id INT REFERENCES Usuarios(id) ON DELETE CASCADE,
     cedula VARCHAR(50) NOT NULL UNIQUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Creación de la tabla Vehículos dentro del esquema FIGA
-CREATE TABLE FIGA.Vehiculos (
+CREATE TABLE Vehiculos (
     id SERIAL PRIMARY KEY,
     placa VARCHAR(20) NOT NULL UNIQUE,
     modelo VARCHAR(100),
@@ -39,8 +39,8 @@ CREATE TABLE Rutas (
 	latitude DECIMAL(9,6) NOT NULL,
   	longitude DECIMAL(9,6) NOT NULL,
     distancia_km DECIMAL(5, 2) CHECK(distancia_km > 0),
-    conductor_id INT REFERENCES FIGA.Conductores(id) ON DELETE SET NULL,
-    vehiculo_id INT REFERENCES FIGA.Vehiculos(id) ON DELETE SET NULL,
+    conductor_id INT REFERENCES Conductores(id) ON DELETE SET NULL,
+    vehiculo_id INT REFERENCES Vehiculos(id) ON DELETE SET NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

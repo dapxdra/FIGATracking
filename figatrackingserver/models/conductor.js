@@ -1,27 +1,41 @@
+// models/Conductor.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize.js");
-const Usuario = require("./user.js"); // Importa el modelo Usuario
+const Usuario = require("./usuario.js");
 
-const Conductor = sequelize.define("Conductor", {
-  cedula: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    unique: true,
-  },
-  usuario_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Usuario, // Referencia el modelo Usuario
-      key: "id",
+const Conductor = sequelize.define(
+  "Conductor",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    onDelete: "CASCADE", // Elimina el conductor si se borra el usuario
+    usuario_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Usuario,
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
+    cedula: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    fecha_creacion: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
-});
+  {
+    tableName: "Conductores",
+    timestamps: false,
+  }
+);
 
-/* // Relación uno a uno con Usuarios
-Conductor.belongsTo(Usuario, {
-  foreignKey: "id",
-  as: "usuario",
-}); */
+Usuario.hasOne(Conductor, { foreignKey: "usuario_id" });
+Conductor.belongsTo(Usuario, { foreignKey: "usuario_id" });
 
 module.exports = Conductor;
