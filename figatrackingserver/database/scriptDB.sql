@@ -41,6 +41,7 @@ CREATE TABLE Rutas (
     distancia_km DECIMAL(5, 2) CHECK(distancia_km > 0),
     conductor_id INT REFERENCES Conductores(id) ON DELETE SET NULL,
     vehiculo_id INT REFERENCES Vehiculos(id) ON DELETE SET NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado BOOL DEFAULT true
 );
 
