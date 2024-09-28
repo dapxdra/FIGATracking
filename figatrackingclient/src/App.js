@@ -1,24 +1,3 @@
-/* import logo from "./logo.svg";
-import "./App.css";
-
-import React from "react";
-
-const App = () => {
-  const googleLogin = () => {
-    window.open("http://localhost:5000/auth/google", "_self");
-  };
-
-  return (
-    <div>
-      <h1>Login OAuth con Google</h1>
-      <button onClick={googleLogin}>Login con Google</button>
-    </div>
-  );
-};
-
-export default App; */
-
-// src/App.js
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -27,8 +6,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import Layout from "./components/layout.jsx";
+import crearUsuario from "./components/crearUsuario.jsx";
 import Home from "./views/home.jsx";
 import Dashboard from "./views/dashboard.jsx";
+import { AuthProvider } from "./context/authContext.jsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,17 +33,26 @@ function App() {
   };
 
   return (
-    <Router>
-      <Layout isLoggedIn={isLoggedIn} handleLogin={handleLogin}>
-        <Routes>
-          <Route exact path="/" component={Home} />
-          <Route
-            path="/dashboard"
-            render={() => (isLoggedIn ? <Dashboard /> : <Navigate to="/" />)}
-          />
-        </Routes>
-      </Layout>
-    </Router>
+    <>
+      <AuthProvider>
+        <Router>
+          <Layout isLoggedIn={isLoggedIn} handleLogin={handleLogin}>
+            <Routes>
+              <Route exact path="/" component={Home} />
+
+              <Route path="/crear-conductor" element={<crearUsuario />} />
+              <Route
+                path="/dashboard"
+                render={() =>
+                  isLoggedIn ? <Dashboard /> : <Navigate to="/" />
+                }
+              />
+              <Route path="/login" Component={Home} />
+            </Routes>
+          </Layout>
+        </Router>
+      </AuthProvider>
+    </>
   );
 }
 
