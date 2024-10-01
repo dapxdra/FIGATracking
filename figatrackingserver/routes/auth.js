@@ -10,7 +10,7 @@ router.get("/auth/google", authController.googleLogin);
 // Callback de Google OAuth
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     res.redirect("/dashboard");
   }

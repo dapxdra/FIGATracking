@@ -1,23 +1,33 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Menu = ({ isLoggedIn, handleLogin }) => {
+function Menu({ isLoggedIn, handleLogin, handleLogout }) {
   return (
-    <nav>
-      <ul>
+    <nav className="bg-blue-600 p-4">
+      <ul className="flex justify-between">
         <li>
-          <a href="/">Inicio</a>
+          <Link to="/" className="text-white hover:text-gray-300">
+            Home
+          </Link>
         </li>
         <li>
-          <a href="/about">Acerca de</a>
+          <Link
+            to="/crear-conductor"
+            className="text-white hover:text-gray-300"
+          >
+            Crear Usuario
+          </Link>
         </li>
         <li>
           {isLoggedIn ? (
             <>
-              <a href="/dashboard">Dashboard</a>
+              <Link to="/dashboard" className="text-white hover:text-gray-300">
+                Dashboard
+              </Link>
+              <></>
               <button
-                onClick={() =>
-                  (window.location.href = "http://localhost:5000/auth/logout")
-                }
+                className="text-white hover:text-gray-300"
+                onClick={handleLogout}
               >
                 Cerrar Sesión
               </button>
@@ -29,6 +39,6 @@ const Menu = ({ isLoggedIn, handleLogin }) => {
       </ul>
     </nav>
   );
-};
+}
 
 export default Menu;
