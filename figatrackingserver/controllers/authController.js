@@ -26,13 +26,14 @@ passport.use(
             email: email,
             rol: "conductor",
           });
-        } else {
-          console.log("Usuario encontrado en la base de datos");
-        }
-        if (usuario.oauth_id === "" || usuario.nombre === "") {
+        } else if (usuario.oauth_id == null || usuario.nombre == null) {
+          console.log("Usuario encontrado listo para actualizar");
+          //UsuarioController.actualizarUsuarioOAuth(req, res);
           usuario.oauth_id = profile.id;
           usuario.nombre = profile.displayName;
           await usuario.save();
+        } else {
+          console.log("Usuario encontrado en la base de datos");
         }
 
         return done(null, usuario);
@@ -61,23 +62,6 @@ const googleLogin = passport.authenticate("google", {
   scope: ["profile", "email"],
 });
 
-/* const googleCallback = (req, res) => {
-  passport.authenticate(
-    "google",
-    { failureRedirect: "/auth/failure", successRedirect: "/auth/success" },
-    (err, user, req, res) => {
-      UsuarioController.actualizarUsuarioOAuth(req, res);
-      console.log(req.user);
-      if (err || !user) {
-        //res.send("Error en el login");
-        return res.redirect("/");
-      } else {
-        return res.redirect("/dashboard");
-      }
-    }
-  );
-}; */
-
 // Verificar estado de sesión
 const checkAuthStatus = (req, res) => {
   if (req.isAuthenticated()) {
@@ -87,21 +71,43 @@ const checkAuthStatus = (req, res) => {
   }
 };
 
-// Cerrar sesión
 const logout = (req, res) => {
-  // Passport provee el método logout para destruir la sesión
-  req.logout((err) => {
+  console.log("método logout");
+  console.log("Sesión antes del logout:", req.session);
+  console.log("Cookie de sesión antes del logout:", req.cookies); // Verifica que la cookie esté presente
+  console.log("ID de sesión antes del logout:", req.sessionID); // Verifica que la sesión esté activa
+
+  res.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  // Passport's logout method
+  req.logout(function (err) {
+    console.log(req.session);
     if (err) {
+      console.log("Error al cerrar sesión:", err);
       return res.status(500).json({ message: "Error al cerrar sesión" });
     }
-    // Opcionalmente, puedes destruir la sesión en el servidor
+
+    // Opción adicional para destruir la sesión en el servidor
     req.session.destroy((err) => {
       if (err) {
+        console.log("Error al destruir la sesión:", err);
         return res.status(500).json({ message: "Error al destruir la sesión" });
       }
-      // Redirige a la página de inicio de sesión o un mensaje de confirmación
-      res.clearCookie("connect.sid"); // Limpia la cookie de la sesión
-      return res.status(200).json({ message: "Sesión cerrada exitosamente" });
+
+      // Limpiar la cookie de sesión (connect.sid)
+      res.clearCookie("connect.sid", {
+        path: "/",
+        httpOnly: true,
+        secure: false, // Si usas HTTPS, asegúrate de que sea true
+      });
+
+      // Redirigir a la página de inicio o enviar una respuesta de éxito
+      return res.redirect("/");
+      //return res.status(200).json({ message: "Sesión cerrada exitosamente" });
     });
   });
 };

@@ -16,7 +16,7 @@ const Menu = ({ isLoggedIn, handleLogin }) => {
               <a href="/dashboard">Dashboard</a>
               <button
                 onClick={() =>
-                  (window.location.href = "http://localhost:3000/auth/logout")
+                  (window.location.href = "http://localhost:5000/auth/logout")
                 }
               >
                 Cerrar Sesión

@@ -19,6 +19,6 @@ router.get(
 // Verificar estado de autenticación
 router.get("/auth/status", authController.checkAuthStatus);
 
-router.post("/logout", authController.logout);
+router.get("/logout", authController.logout);
 
 module.exports = router;

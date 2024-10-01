@@ -6,6 +6,6 @@ const usuarioController = require("../controllers/usuarioController.js");
 router.post("/crear", usuarioController.crearUsuario);
 
 // Ruta para actualizar datos después del OAuth login
-router.put("/actualizar-oauth", usuarioController.actualizarUsuarioOAuth);
+router.post("/actualizar-oauth", usuarioController.actualizarUsuarioOAuth);
 
 module.exports = router;

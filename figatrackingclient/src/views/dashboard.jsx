@@ -8,16 +8,23 @@ function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/auth/logout", {
-        method: "POST",
-        credentials: "include",
+      const response = await fetch("http://localhost:5000/auth/logout", {
+        method: "GET",
+        credentials: "include", // Asegura que las cookies se envían con la solicitud
+        headers: {
+          "Cache-Control": "no-cache", // Desactiva el caché en la solicitud
+          "Content-Type": "application/json",
+        },
       });
 
+      console.log("Respuesta del logout:", response);
+
       if (response.ok) {
+        console.log("Cierre de sesión exitoso");
         setAuthenticated(false); // Cambia el estado de autenticación
-        navigate.push("/login"); // Redirige al login
+        navigate("/logout"); // Redirige al login
       } else {
-        console.error("Error al cerrar sesión");
+        console.error("Error al cerrar sesión:", response.status);
       }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);

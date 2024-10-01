@@ -25,12 +25,10 @@ exports.crearUsuario = async (req, res) => {
   }
 };
 
-exports.actualizarUsuarioOAuth = async (req, res) => {
+/* exports.actualizarUsuarioOAuth = async (req, res) => {
   try {
-    /* if (req.user) {
-      return res.redirect("/dashboard");
-    } */
     if (!req.user) {
+      console.log("Usuario no autenticado");
       return res.status(401).json({ message: "Usuario no autenticado" });
     }
 
@@ -42,15 +40,17 @@ exports.actualizarUsuarioOAuth = async (req, res) => {
       usuario.oauth_id = oauth_id;
       usuario.nombre = nombre;
       await usuario.save();
-      return res
-        .status(200)
-        .json({ message: "Usuario actualizado correctamente" });
+      console.log("Usuario actualizado correctamente");
+      return res.redirect("/dashboard");
     } else {
+      console.log("Usuario no encontrado act");
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
   } catch (error) {
+    console.log("Error al actualizar el usuario");
     return res
       .status(500)
       .json({ message: "Error al actualizar el usuario", error });
   }
 };
+ */

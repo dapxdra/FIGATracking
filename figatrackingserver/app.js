@@ -24,14 +24,23 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24, // Expira en 1 día
+      sameSite: "lax",
+    },
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRoutes);
+app.get("/logout", (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+app.use("/logout", authRoutes);
 app.use(authRoutes);
 
 // Servir archivos estáticos desde la carpeta build de React
