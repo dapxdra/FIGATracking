@@ -85,6 +85,7 @@ const logout = (req, res) => {
   res.set("Expires", "0");
   // Passport's logout method
   req.logout(function (err) {
+    console.log("Sesion cerrada");
     console.log(req.session);
     if (err) {
       console.log("Error al cerrar sesión:", err);
@@ -106,8 +107,8 @@ const logout = (req, res) => {
       });
 
       // Redirigir a la página de inicio o enviar una respuesta de éxito
-      return res.redirect("/");
-      //return res.status(200).json({ message: "Sesión cerrada exitosamente" });
+      //return res.redirect("/");
+      return res.status(200).json({ message: "Sesión cerrada exitosamente" });
     });
   });
 };

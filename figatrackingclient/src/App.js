@@ -6,9 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Layout from "./components/layout.jsx";
-import Header from "./components/header.jsx";
-import Sidebar from "./components/sidebar.jsx";
-import Home from "./views/home.jsx";
 import Dashboard from "./views/dashboard.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 import CrearUsuario from "./components/crearUsuario.jsx";
@@ -38,11 +35,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Header isLoggedIn={isLoggedIn} handleLogin={handleLogin} />
-        <Sidebar />
         <Layout isLoggedIn={isLoggedIn} handleLogin={handleLogin}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" />
             <Route
               path="/crear-conductor"
               element={isLoggedIn ? <CrearUsuario /> : <Navigate to="/" />}
