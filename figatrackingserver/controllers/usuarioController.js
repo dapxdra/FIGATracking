@@ -1,6 +1,7 @@
 const Usuario = require("../models/usuario.js");
 const Conductor = require("../models/conductor.js");
 
+// Crear usuarios y conductores
 exports.crearUsuario = async (req, res) => {
   const { email, cedula } = req.body;
 
@@ -25,32 +26,69 @@ exports.crearUsuario = async (req, res) => {
   }
 };
 
-/* exports.actualizarUsuarioOAuth = async (req, res) => {
+// Listar Usuarios
+exports.listarUsuarios = async (req, res) => {
   try {
-    if (!req.user) {
-      console.log("Usuario no autenticado");
-      return res.status(401).json({ message: "Usuario no autenticado" });
-    }
-
-    const { oauth_id, nombre, email } = req.user; // Ahora req.user debería estar definido
-
-    const usuario = await Usuario.findOne({ where: { email: email } });
-
-    if (usuario) {
-      usuario.oauth_id = oauth_id;
-      usuario.nombre = nombre;
-      await usuario.save();
-      console.log("Usuario actualizado correctamente");
-      return res.redirect("/dashboard");
-    } else {
-      console.log("Usuario no encontrado act");
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
+    const usuarios = await Usuario.findAll({
+      include: [{ model: Conductor }],
+    });
+    res.status(200).json(usuarios);
   } catch (error) {
-    console.log("Error al actualizar el usuario");
-    return res
-      .status(500)
-      .json({ message: "Error al actualizar el usuario", error });
+    res.status(500).json({ error: "Error al listar los usuarios" });
   }
 };
- */
+
+// Actualizar Usuario
+exports.actualizarUsuario = async (req, res) => {
+  const { id } = req.params;
+  const { email, cedula } = req.body;
+
+  try {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Actualizar usuario
+    usuario.email = email;
+    await usuario.save();
+
+    // Actualizar conductor
+    const conductor = await Conductor.findOne({ where: { usuario_id: id } });
+    if (conductor) {
+      conductor.cedula = cedula;
+      await conductor.save();
+    }
+
+    res.status(200).json({
+      message: "Usuario y Conductor actualizados exitosamente",
+      usuario,
+      conductor,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al actualizar el usuario y conductor" });
+  }
+};
+
+// Eliminar Usuario
+exports.eliminarUsuario = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Eliminar conductor primero
+    await Conductor.destroy({ where: { usuario_id: id } });
+    // Eliminar usuario
+    await usuario.destroy();
+
+    res.status(204).send(); // Sin contenido, pero indica éxito.
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar el usuario y conductor" });
+  }
+};

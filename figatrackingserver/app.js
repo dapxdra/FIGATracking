@@ -2,8 +2,10 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 //const passport = require("./controllers/authController.js");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.js");
+const usuarioRoutes = require("./routes/usuarios.js");
 const sequelize = require("./config/sequelize.js");
 const cors = require("cors");
 const path = require("path");
@@ -11,6 +13,9 @@ const path = require("path");
 dotenv.config();
 
 const app = express();
+
+// Middleware
+app.use(bodyParser.json());
 
 app.use(
   cors({
@@ -43,6 +48,7 @@ app.get("/logout", (req, res, next) => {
 app.use("/logout", authRoutes);
 app.use(authRoutes);
 
+app.use("/usuarios", usuarioRoutes);
 // Servir archivos estáticos desde la carpeta build de React
 app.use(express.static(path.resolve(__dirname, "../figatrackingclient/build")));
 

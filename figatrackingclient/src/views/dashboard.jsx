@@ -1,10 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext.jsx"; // Importa el contexto
-import Layout from "../components/layout.jsx";
 
 export function Dashboard() {
-  return <Layout />;
+  return (
+    <div>
+      <h1>Bienvenido a la aplicación</h1>
+      <p>Haz clic en "Iniciar Sesión" para acceder a tu cuenta.</p>
+    </div>
+  );
 }
 
 export default Dashboard;
