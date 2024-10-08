@@ -17,22 +17,23 @@ const ListUser = () => {
   };
 
   const handleEditUser = async (userData) => {
-    const response = await fetch(`/api/usuarios/${userData.id}`, {
+    const response = await fetch(`/usuarios/actusuarios/${userData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
     });
-
+    console.log(userData);
     if (response.ok) {
+      console.log(response);
       fetchUsers();
       setEditingUser(null);
     }
   };
 
   const handleDeleteUser = async (userId) => {
-    const response = await fetch(`/api/usuarios/${userId}`, {
+    const response = await fetch(`/usuarios/elimusuarios/${userId}`, {
       method: "DELETE",
     });
 

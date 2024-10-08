@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 const UserFormComponent = ({ onSubmit, user }) => {
   const [email, setEmail] = useState(user ? user.email : "");
-  const [cedula, setCedula] = useState(user ? user.cedula : "");
+  const [cedula, setCedula] = useState(user?.cedula || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ email, cedula });
+    onSubmit({ email, cedula, id: user?.id });
   };
 
   return (

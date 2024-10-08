@@ -34,9 +34,10 @@ function App() {
         <Layout isLoggedIn={isLoggedIn} handleLogin={handleLogin}>
           <Routes>
             <Route path="/" />
-            <Route path="/crearUsuario" element={CrearUsuario} />
-            <Route path="/verUsuario" Component={VerUsuario} />
-            <Route path="/dashboard" Component={Dashboard} />
+            <Route path="/actusuarios/:id" element={<CrearUsuario />} />
+            <Route path="/crearUsuario" element={<CrearUsuario />} />
+            <Route path="/verUsuario" element={<VerUsuario />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Layout>
       </Router>

@@ -15,7 +15,7 @@ const UserTableComponent = ({ users, onEdit, onDelete }) => {
           {users.map((user) => (
             <tr key={user.id}>
               <td className="border px-4 py-2">{user.email}</td>
-              <td className="border px-4 py-2">{user.cedula}</td>
+              <td className="border px-4 py-2">{user.Conductor.cedula}</td>
               <td className="border px-4 py-2">
                 <button
                   onClick={() => onEdit(user)}

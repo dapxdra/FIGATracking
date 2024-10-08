@@ -94,13 +94,19 @@ export function Header({ isLoggedIn, handleLogin }) {
                       <div className="p-1.5 space-y-0.5">
                         <button
                           className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700"
-                          onClick={() => navigate("/crearUsuario")}
+                          onClick={() => {
+                            setDropdownOpen2(false);
+                            navigate("/crearUsuario");
+                          }}
                         >
                           Crear Usuario
                         </button>
                         <button
                           className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700"
-                          onClick={() => navigate("/verUsuario")}
+                          onClick={() => {
+                            setDropdownOpen2(false);
+                            navigate("/verUsuario");
+                          }}
                         >
                           Ver Usuarios
                         </button>
