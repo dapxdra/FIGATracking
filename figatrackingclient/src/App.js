@@ -4,6 +4,8 @@ import Layout from "./components/layout.jsx";
 import Dashboard from "./views/dashboard.jsx";
 import CrearUsuario from "./views/createUser.jsx";
 import VerUsuario from "./views/listUser.jsx";
+import CrearVehiculo from "./views/createVehicle.jsx";
+import VerVehiculo from "./views/listVehicle.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 import "./index.css";
 
@@ -37,6 +39,8 @@ function App() {
             <Route path="/actusuarios/:id" element={<CrearUsuario />} />
             <Route path="/crearUsuario" element={<CrearUsuario />} />
             <Route path="/verUsuario" element={<VerUsuario />} />
+            <Route path="/crearVehiculo" element={<CrearVehiculo />} />
+            <Route path="/verVehiculo" element={<VerVehiculo />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Layout>

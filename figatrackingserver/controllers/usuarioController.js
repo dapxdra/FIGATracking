@@ -36,7 +36,6 @@ exports.listarUsuarios = async (req, res) => {
     const usuarios = await Usuario.findAll({
       include: [{ model: Conductor }],
     });
-    console.log(usuarios);
     res.status(200).json(usuarios);
   } catch (error) {
     res.status(500).json({ error: "Error al listar los usuarios" });

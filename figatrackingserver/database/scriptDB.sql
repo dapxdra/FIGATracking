@@ -26,7 +26,6 @@ CREATE TABLE Vehiculos (
     placa VARCHAR(20) NOT NULL UNIQUE,
     modelo VARCHAR(100),
     capacidad INT CHECK(capacidad > 0),
-	estado BOOL DEFAULT true,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

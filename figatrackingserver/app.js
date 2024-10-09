@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.js");
 const usuarioRoutes = require("./routes/usuarios.js");
+const vehiculosRoutes = require("./routes/vehiculos.js");
 const sequelize = require("./config/sequelize.js");
 const cors = require("cors");
 const path = require("path");
@@ -49,6 +50,7 @@ app.use("/logout", authRoutes);
 app.use(authRoutes);
 
 app.use("/usuarios", usuarioRoutes);
+app.use("/vehiculos", vehiculosRoutes);
 // Servir archivos estáticos desde la carpeta build de React
 app.use(express.static(path.resolve(__dirname, "../figatrackingclient/build")));
 
