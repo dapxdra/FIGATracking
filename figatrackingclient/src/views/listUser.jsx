@@ -44,7 +44,7 @@ const ListUser = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Listar Usuarios</h1>
+      <h1 className="text-2xl font-bold">Lista de Usuarios</h1>
       {editingUser ? (
         <UserFormComponent onSubmit={handleEditUser} user={editingUser} />
       ) : (

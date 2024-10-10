@@ -41,9 +41,9 @@ const CreateVehiculo = () => {
         body: JSON.stringify(vehiculoData),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
         alert(`Vehiculo ${id ? "actualizado" : "creado"} correctamente`);
-        navigate("/verVehiculos");
+        navigate("/verVehiculo");
       } else {
         alert(`Error al ${id ? "actualizar" : "crear"} vehiculo`);
       }

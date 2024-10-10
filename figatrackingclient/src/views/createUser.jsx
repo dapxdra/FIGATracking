@@ -45,7 +45,7 @@ const CreateUser = () => {
 
       if (response.ok) {
         alert(`Usuario ${id ? "actualizado" : "creado"} correctamente`);
-        navigate("/verUsuarios"); // Redirigir a la página de usuarios
+        navigate("/verUsuario"); // Redirigir a la página de usuarios
       } else {
         alert(`Error al ${id ? "actualizar" : "crear"} usuario`);
       }

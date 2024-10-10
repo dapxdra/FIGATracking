@@ -7,6 +7,7 @@ export function Header({ isLoggedIn, handleLogin }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownOpen2, setDropdownOpen2] = useState(false);
   const [dropdownOpen3, setDropdownOpen3] = useState(false);
+  const [dropdownOpen4, setDropdownOpen4] = useState(false);
 
   const navigate = useNavigate();
   const { isAuthenticated, setAuthenticated } = useAuth();
@@ -15,6 +16,7 @@ export function Header({ isLoggedIn, handleLogin }) {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleDropdown2 = () => setDropdownOpen2(!dropdownOpen2);
   const toggleDropdown3 = () => setDropdownOpen3(!dropdownOpen3);
+  const toggleDropdown4 = () => setDropdownOpen4(!dropdownOpen4);
 
   const handleLogout = async () => {
     try {
@@ -117,7 +119,7 @@ export function Header({ isLoggedIn, handleLogin }) {
                   )}
                 </div>
 
-                {/* Botón de flota */}
+                {/* Botón de vehículos */}
                 {/* Dropdown */}
                 <div className="relative inline-flex">
                   <button
@@ -159,12 +161,45 @@ export function Header({ isLoggedIn, handleLogin }) {
                 </div>
 
                 {/* Botón de Rutas */}
-                <button
-                  type="button"
-                  className="size-[38px] relative inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-                >
-                  <span>Rutas</span>
-                </button>
+                {/* Dropdown */}
+                <div className="relative inline-flex">
+                  <button
+                    id="dropdown-button"
+                    type="button"
+                    onClick={toggleDropdown4}
+                    className="size-[38px] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-white"
+                    aria-haspopup="true"
+                    aria-expanded={dropdownOpen4 ? "true" : "false"}
+                  >
+                    <span>Rutas</span>
+                  </button>
+
+                  {/* Dropdown menú */}
+                  {dropdownOpen4 && (
+                    <div className="absolute z-10 right-0 mt-2 w-48 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-neutral-800 dark:border dark:border-neutral-700">
+                      <div className="p-1.5 space-y-0.5">
+                        <button
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                          onClick={() => {
+                            setDropdownOpen4(false);
+                            navigate("/crearRuta");
+                          }}
+                        >
+                          Crear Ruta
+                        </button>
+                        <button
+                          className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700"
+                          onClick={() => {
+                            setDropdownOpen4(false);
+                            navigate("/verRuta");
+                          }}
+                        >
+                          Ver Rutas
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {/* Botón de reservas */}
                 <button

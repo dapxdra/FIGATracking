@@ -29,18 +29,15 @@ CREATE TABLE Vehiculos (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Creación de la tabla Rutas dentro del esquema FIGA
-CREATE TABLE Rutas (
+CREATE TABLE rutas (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    origen VARCHAR(100) NOT NULL,
-    destino VARCHAR(100) NOT NULL,
-	latitude DECIMAL(9,6) NOT NULL,
-  	longitude DECIMAL(9,6) NOT NULL,
-    distancia_km DECIMAL(5, 2) CHECK(distancia_km > 0),
     conductor_id INT REFERENCES Conductores(id) ON DELETE SET NULL,
     vehiculo_id INT REFERENCES Vehiculos(id) ON DELETE SET NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    estado BOOL DEFAULT true
+    nombre VARCHAR(100) NOT NULL,
+    punto_inicio GEOGRAPHY(POINT, 4326),  -- Usa tipo de dato GEOGRAPHY para almacenar latitud/longitud
+    punto_destino GEOGRAPHY(POINT, 4326),
+    duracion_estimada INT,  -- Duración en minutos
+    distancia DECIMAL(10, 2) CHECK(distancia > 0),  -- Distancia en kilómetros
+    estado VARCHAR(50) NOT NULL CHECK (estado IN ('completada', 'en progreso', 'cancelada')),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-

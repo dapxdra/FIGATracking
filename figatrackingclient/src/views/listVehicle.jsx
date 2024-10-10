@@ -34,7 +34,7 @@ const ListVehicles = () => {
   };
 
   const handleDeleteVehicle = async (vehicleId) => {
-    const response = await fetch(`/usuarios/elimusuarios/${vehicleId}`, {
+    const response = await fetch(`/vehiculos/eliminarvehiculos/${vehicleId}`, {
       method: "DELETE",
     });
     if (response.ok) {
